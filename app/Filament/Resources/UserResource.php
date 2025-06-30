@@ -17,27 +17,48 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    public static function getNavigationGroup(): string
+    {
+        return __('models/user.navigation_group');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('models/user.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('models/user.plural_label');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('attributes.name'))
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('email')
+                    ->label(__('attributes.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('password')
+                    ->label(__('attributes.password'))
                     ->password()
                     ->required(fn($livewire) => $livewire instanceof Pages\CreateUser)
                     ->maxLength(255)
                     ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
-                    ->label('Password')
                     ->visibleOn('create'),
+
                 Forms\Components\Select::make('roles')
+                    ->label(__('models/user.attributes.roles'))
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->preload()
@@ -49,10 +70,23 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('id')
+                    ->label(__('validation.attributes.id'))
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('validation.attributes.name'))
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('email')
+                    ->label(__('validation.attributes.email'))
+                    ->sortable()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('validation.attributes.created_at'))
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])
