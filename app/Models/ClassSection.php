@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ActiveAcademicYearScope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,11 @@ class ClassSection extends Model
         return Attribute::make(
             get: fn () => ($this->gradeLevel?->name ?? '') . ' - ' . $this->section_name,
         );
+    }
+    
+    protected static function booted()
+    {
+        static::addGlobalScope(new ActiveAcademicYearScope);
     }
 
     public function gradeLevel(): BelongsTo

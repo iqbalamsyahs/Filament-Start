@@ -71,22 +71,22 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label(__('validation.attributes.id'))
+                    ->label(__('attributes.id'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('validation.attributes.name'))
+                    ->label(__('attributes.name'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('email')
-                    ->label(__('validation.attributes.email'))
+                    ->label(__('attributes.email'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('validation.attributes.created_at'))
+                    ->label(__('attributes.created_at'))
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])
