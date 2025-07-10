@@ -38,34 +38,34 @@ class TeacherResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nip')
-                    ->label(__('models/teacher.attributes.nip'))
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true)
-                    ->nullable(),
+                Forms\Components\Section::make('Informasi Profil Guru')
+                    ->schema([
+                        Forms\Components\TextInput::make('nip')
+                            ->label(__('models/teacher.attributes.nip'))
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->nullable(),
 
-                Forms\Components\TextInput::make('full_name')
-                    ->label(__('attributes.full_name'))
-                    ->required()
-                    ->maxLength(255),
+                        Forms\Components\TextInput::make('full_name')
+                            ->label(__('attributes.full_name'))
+                            ->required()
+                            ->maxLength(255),
 
-                Forms\Components\TextInput::make('phone_number')
-                    ->label(__('attributes.phone_number'))
-                    ->maxLength(255)
-                    ->nullable(),
+                        Forms\Components\TextInput::make('phone_number')
+                            ->label(__('attributes.phone_number'))
+                            ->maxLength(255)
+                            ->nullable(),
+                    ])->columns(2),
 
-                Forms\Components\Select::make('user_id')
-                    ->label(__('models/teacher.attributes.user'))
-                    ->relationship(
-                        'user',
-                        'name',
-                        fn ($query) => $query
-                            ->whereHas('roles', function ($q) {
-                                $q->where('name', 'guru');
-                            })
-                            ->whereDoesntHave('teacher')
-                    )
-                    ->required(),
+                Forms\Components\Section::make('Informasi Akun Login')
+                    ->schema([
+                        Forms\Components\TextInput::make('email')->email()->required()->unique(ignoreRecord: true),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->required(fn (string $context): bool => $context === 'create') // Wajib diisi saat membuat
+                            ->dehydrated(fn ($state) => filled($state)) // Hanya simpan jika diisi
+                            ->helperText('Kosongkan jika tidak ingin mengubah password saat mengedit.'),
+                    ]),
             ]);
     }
 
