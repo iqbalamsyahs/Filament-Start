@@ -36,10 +36,10 @@ class Student extends Model
     /**
      * RELASI: Seorang Siswa memiliki banyak catatan penyelesaian buku.
      */
-    // public function bookCompletions(): HasMany
-    // {
-    //     return $this->hasMany(BookCompletion::class);
-    // }
+    public function readingLogs(): HasMany
+    {
+        return $this->hasMany(ReadingLog::class);
+    }
 
     /**
      * RELASI: Seorang Siswa memiliki beberapa data asesmen K-Means (awal, tengah, akhir tahun).

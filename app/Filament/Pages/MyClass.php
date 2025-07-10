@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Filament\Resources\StudentResource;
 use App\Models\Student;
 use App\Services\CurrentAcademicYearService;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 // Implementasikan HasTable dan gunakan trait InteractsWithTable
 class MyClass extends Page implements HasTable
 {
-    use InteractsWithTable;
+    use InteractsWithTable, HasPageShield;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -31,11 +32,6 @@ class MyClass extends Page implements HasTable
     
     // Nama file view yang akan digunakan
     protected static string $view = 'filament.pages.my-class';
-
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->can('page_MyClass');
-    }
 
     /**
      * Method inti untuk mendefinisikan query data tabel.
